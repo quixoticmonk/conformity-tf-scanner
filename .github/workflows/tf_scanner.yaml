@@ -1,6 +1,9 @@
-# This GitHub action can test if the provider has any issues for CRD for latest development
-name: test
-on: pull_request
+name: Template Scanner
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
 jobs:
   tf-scan:
     permissions: read-all
