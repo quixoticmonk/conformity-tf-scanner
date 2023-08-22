@@ -39,6 +39,7 @@ jobs:
         run: |
           terraform show -json plan.out > tf_plan.json
       - name: Initiate scan
+      working-directory: ./scripts
         run: |
           python3 -m pip install -r requirements.txt
           python3 tf_scan.py \
