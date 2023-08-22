@@ -1,6 +1,8 @@
+"""Script to scan your Terraform or Cloudformation template against Conformity API"""
+import sys
 import json
 import requests
-import sys
+
 
 import click
 
@@ -33,7 +35,7 @@ def initiate_scan(region, api_key, template_type, template_path):
                 }
             }
         }
-        resp = requests.post(conformity_url, headers=headers, data=json.dumps(payload))
+        resp = requests.post(conformity_url, headers=headers, data=json.dumps(payload), timeout=20)
 
     response_object = resp.json()
     scan_status = {}
