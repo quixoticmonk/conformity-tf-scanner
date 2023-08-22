@@ -1,0 +1,42 @@
+# This GitHub action can test if the provider has any issues for CRD for latest development
+name: test
+on: pull_request
+jobs:
+  tf-scan:
+    permissions: read-all
+    runs-on: ubuntu-latest
+    env:
+      MY_KEY_VAR: ${{ secrets.MY_KEY_VAR }}
+      MY_CONFORMITY_API_KEY: ${{ secrets.MY_CONFORMITY_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.git_role }}
+          aws-region: "us-east-1"
+          role-duration-seconds: 3600
+          role-session-name: GithubActions-Session
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        run: |
+          terraform init
+      - name: Terraform Plan
+        run: |
+          terraform plan -out=plan.out
+      - name: Terraform convert to json
+        run: |
+          terraform show -json plan.out > tf_plan.json
+      - name: Initiate scan
+        run: |
+          python3 -m pip install -r requirements.txt
+          python3 tf_scan.py \
+          --region "us-1" --api_key ${{secrets.conformity_api_key}} \
+          --template_type "terraform-template" \
+          --template_path "infra/tf_plan.json"
