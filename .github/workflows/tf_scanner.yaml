@@ -8,9 +8,6 @@ jobs:
   tf-scan:
     permissions: read-all
     runs-on: ubuntu-latest
-    env:
-      MY_KEY_VAR: ${{ secrets.MY_KEY_VAR }}
-      MY_CONFORMITY_API_KEY: ${{ secrets.MY_CONFORMITY_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
