@@ -27,12 +27,15 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
+        working-directory: ./infra
         run: |
           terraform init
       - name: Terraform Plan
+        working-directory: ./infra
         run: |
           terraform plan -out=plan.out
       - name: Terraform convert to json
+        working-directory: ./infra
         run: |
           terraform show -json plan.out > tf_plan.json
       - name: Initiate scan
