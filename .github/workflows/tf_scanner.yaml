@@ -39,10 +39,10 @@ jobs:
         run: |
           terraform show -json plan.out > tf_plan.json
       - name: Initiate scan
-        working-directory: ./scripts
-        run: |
-          python3 -m pip install -r requirements.txt
-          python3 tf_scan.py \
-          --region "us-1" --api_key ${{secrets.conformity_api_key}} \
-          --template_type "terraform-template" \
-          --template_path "../infra/tf_plan.json"
+        uses: quixoticmonk/conformity-template-scanner@v1
+        with:
+          conformity_region: "us-1"
+          conformity_api_key: ${{secrets.conformity_api_key}}
+          template_type: "terraform-template"
+          template_path: "../infra/tf_plan.json"
+          
