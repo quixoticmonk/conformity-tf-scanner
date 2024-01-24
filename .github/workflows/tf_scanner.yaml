@@ -39,7 +39,7 @@ jobs:
         run: |
           terraform show -json plan.out > tf_plan.json
       - name: Initiate scan
-        uses: quixoticmonk/conformity-template-scanner@v1
+        uses: quixoticmonk/conformity-template-scanner@v2
         with:
           conformity_region: "us-1"
           conformity_api_key: ${{secrets.conformity_api_key}}
