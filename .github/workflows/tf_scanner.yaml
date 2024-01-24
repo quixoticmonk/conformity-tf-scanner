@@ -44,5 +44,5 @@ jobs:
           conformity_region: "us-1"
           conformity_api_key: ${{secrets.conformity_api_key}}
           template_type: "terraform-template"
-          template_path: "../infra/tf_plan.json"
+          template_path: "infra/tf_plan.json"
           
